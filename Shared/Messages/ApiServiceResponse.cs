@@ -112,8 +112,6 @@
 
         public InternalServiceFailedApiServiceResponse(Exception ex, string errorCode = ResponseErrorCode.GeneralError)
         {
-            //TODO: analyze header trace value
-
             Message = $"Internal service error";
             DetailsMessage = $"Internal service error '{ex}'";
             State = ApiStatus.Failed;

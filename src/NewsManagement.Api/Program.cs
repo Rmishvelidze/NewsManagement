@@ -1,14 +1,11 @@
-using System.IdentityModel.Tokens.Jwt;
 using Shared.Middleware;
 using Microsoft.OpenApi.Models;
 using NewsManagement.Api.Configuration;
 using NewsManagement.Application;
 using Serilog;
-using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using NewsManagement.Application.Interfaces.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -87,11 +84,10 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.MapHealthChecks("/hc-lb");
 
+app.UseResponseCompression();
 app.UseMiddleware(typeof(ErrorHandlingMiddleware));
-//app.UseMiddleware(typeof(CustomMiddleware));
-
+app.UseMiddleware(typeof(CustomMiddleware));
 
 app.UseAuthorization();
-app.UseResponseCompression();
 app.MapControllers();
 app.Run();

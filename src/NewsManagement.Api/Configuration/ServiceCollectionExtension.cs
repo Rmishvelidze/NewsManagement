@@ -6,6 +6,7 @@ using NewsManagement.Domain.Settings;
 using NewsManagement.Persistence.Data;
 using NewsManagement.Persistence.Implementations.Repositories.News;
 using System.Reflection;
+using NewsManagement.Persistence.Implementations.Repositories.Users;
 
 namespace NewsManagement.Api.Configuration
 {
@@ -19,6 +20,7 @@ namespace NewsManagement.Api.Configuration
         [Obsolete("Obsolete")]
         public static void AddServices(this IServiceCollection services)
         {
+            services.AddAuthentication();
             services.AddControllers().AddFluentValidation();
             services.AddSingleton<IMemoryCache, MemoryCache>();
             services.AddSingleton<UserDataContext>();
@@ -31,6 +33,7 @@ namespace NewsManagement.Api.Configuration
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<INewsRepository, NewsRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         public static void AddSettings(this IServiceCollection services, IConfiguration configuration)

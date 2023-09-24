@@ -1,4 +1,4 @@
-﻿using NewsManagementMinimal.Models;
+﻿using NewsManagement.Domain.Models.UserModels;
 
 namespace NewsManagement.Persistence.Data
 {

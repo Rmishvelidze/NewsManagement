@@ -1,4 +1,4 @@
-﻿namespace NewsManagementMinimal.Models
+﻿namespace NewsManagement.Domain.Models.UserModels
 {
     public class UserLogin
     {

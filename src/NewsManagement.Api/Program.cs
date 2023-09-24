@@ -4,7 +4,6 @@ using Microsoft.OpenApi.Models;
 using NewsManagement.Api.Configuration;
 using NewsManagement.Application;
 using Serilog;
-using NewsManagementMinimal.Models;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -81,6 +80,9 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+app.UseAuthorization();
+app.UseAuthentication();
+
 app.UseSwagger();
 app.UseSwaggerUI();
 app.MapHealthChecks("/hc-lb");
@@ -93,36 +95,3 @@ app.UseAuthorization();
 app.UseResponseCompression();
 app.MapControllers();
 app.Run();
-return;
-
-IResult Login(UserLogin user, IUserRepository userRepo)
-{
-    if (string.IsNullOrEmpty(user.Username) ||
-        string.IsNullOrEmpty(user.Password)) return Results.BadRequest("Invalid user credentials");
-    var loggedInUser = userRepo.Get(user);
-    if (loggedInUser is null) return Results.NotFound("User not found");
-
-    var claims = new[]
-    {
-        new Claim(ClaimTypes.NameIdentifier, loggedInUser.Username),
-        new Claim(ClaimTypes.Email, loggedInUser.EmailAddress),
-        new Claim(ClaimTypes.GivenName, loggedInUser.GivenName),
-        new Claim(ClaimTypes.Surname, loggedInUser.Surname),
-        new Claim(ClaimTypes.Role, loggedInUser.Role)
-    };
-
-    var token = new JwtSecurityToken
-    (
-        issuer: builder.Configuration["Jwt:Issuer"],
-        audience: builder.Configuration["Jwt:Audience"],
-        claims: claims,
-        expires: DateTime.UtcNow.AddHours(1),
-        notBefore: DateTime.UtcNow,
-        signingCredentials: new SigningCredentials(
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty)),
-            SecurityAlgorithms.HmacSha256)
-    );
-
-    var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-    return Results.Ok(tokenString);
-}

@@ -1,6 +1,6 @@
 ﻿using NewsManagement.Application.Interfaces.Repositories;
+using NewsManagement.Domain.Models.UserModels;
 using NewsManagement.Persistence.Data;
-using NewsManagementMinimal.Models;
 
 namespace NewsManagement.Persistence.Implementations.Repositories.Users
 {

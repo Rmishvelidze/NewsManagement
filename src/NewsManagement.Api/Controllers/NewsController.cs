@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NewsManagement.Application.Features.News.Commands;
 using NewsManagement.Application.Features.News.Queries;
@@ -12,23 +14,6 @@ namespace NewsManagement.Api.Controllers
     [ApiController]
     public class NewsController : ControllerBase
     {
-        //    public NewsController(ISender sender) : base(sender) { }
-
-        //    [HttpGet( Name = "GetNews")]
-        //    [ProducesResponseType(StatusCodes.Status200OK)]
-        //    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //    [ProducesResponseType(StatusCodes.Status404NotFound)]
-        //    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        //    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        //    public async Task<ActionResult<ApiServiceResponse<NewsDto>>> Get() =>
-        //        await Result
-        //            .Create(new GetNewsQuery())
-        //            .Bind(query => Sender.Send(query))
-        //            .Match(
-        //                success => Ok(new SuccessApiServiceResponse<NewsDto>(success)),
-        //                HandleFailure<NewsDto>
-        //            );
-
         private readonly IMediator _mediator;
 
         public NewsController(IMediator mediator)
@@ -36,6 +21,7 @@ namespace NewsManagement.Api.Controllers
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator,Standard")]
         [Route("GetAllNews")]
         [HttpGet]
         public async Task<IActionResult> GetAllNews()
@@ -44,6 +30,7 @@ namespace NewsManagement.Api.Controllers
             return Ok(newsDtos);
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator,Standard")]
         [HttpGet("GetNewsByDays")]
         public async Task<IActionResult> GetNewsByDays([Required]int days)
         {
@@ -51,8 +38,9 @@ namespace NewsManagement.Api.Controllers
             return newsDtos!.Count == 0 ? NotFound() : Ok(newsDtos);
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator,Standard")]
         [HttpGet("GetNewsByText")]
-        public async Task<Result<List<NewsDto>?>> GetNewsByText(string text) =>
+        public async Task<Result<List<NewsDto>?>> GetNewsByText([Required]string text) =>
             await _mediator.Send(new GetNewsByTextQuery.Request(text));
 
         [HttpGet("GetLatest5News")]
@@ -62,6 +50,7 @@ namespace NewsManagement.Api.Controllers
             return newsDtos!.Count == 0 ? NotFound() : Ok(newsDtos);
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
         [HttpPost("Subscribe")]
         public Task<string> Subscribe() =>
             _mediator.Send(new SubscribeCommand.Request());

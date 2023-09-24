@@ -5,14 +5,10 @@ namespace Shared.Library
         protected Result(bool isSuccess, Error error)
         {
             if (isSuccess && error != Error.None)
-            {
                 throw new InvalidOperationException();
-            }
 
             if (!isSuccess && error == Error.None)
-            {
                 throw new InvalidOperationException();
-            }
 
             IsSuccess = isSuccess;
             Errors = new[] { error };
@@ -24,11 +20,18 @@ namespace Shared.Library
             Errors = errors;
         }
 
+        protected Result(bool isSuccess, string[] errors)
+        {
+            IsSuccess = isSuccess;
+            ErrorMessages = errors;
+        }
+
         public bool IsSuccess { get; }
 
         public bool IsFailure => !IsSuccess;
 
         public Error[] Errors { get; }
+        public string[] ErrorMessages { get; }
 
         public static Result Success() => new(true, Error.None);
 
@@ -47,8 +50,8 @@ namespace Shared.Library
         public static Result<TValue> Failure<TValue>(Error[] errors) =>
             new(default, false, errors);
 
-        // public static Result<TValue> Create<TValue>(TValue? value) =>
-        //     value is not null ? Success(value) : Failure<TValue>(Error.NullValue);
+        public static Result<TValue> Failure<TValue>(string[] errors) =>
+            new( default, false, errors);
 
         public static Result<TValue?> Create<TValue>(TValue? value) => Success(value);
 
@@ -69,7 +72,6 @@ namespace Shared.Library
             {
                 results.Add(Ensure(value, predicate, error));
             }
-
             return Combine(results.ToArray());
         }
 
@@ -84,7 +86,6 @@ namespace Shared.Library
                         .Distinct()
                         .ToArray());
             }
-
             return Success(results[0].Value);
         }
     }

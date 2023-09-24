@@ -20,9 +20,7 @@ namespace Shared.Behaviours
             CancellationToken cancellationToken)
         {
             if (!_validators.Any())
-            {
                 return await next();
-            }
 
             Error[] errors = _validators
                 .Select(validator => validator.Validate(request))
@@ -38,10 +36,7 @@ namespace Shared.Behaviours
                 .ToArray();
 
             if (errors.Any())
-            {
                 return CreateValidationResult<TResponse>(errors);
-            }
-
             return await next();
         }
 
@@ -49,9 +44,7 @@ namespace Shared.Behaviours
             where TResult : Result
         {
             if (typeof(TResult) == typeof(Result))
-            {
                 return (Result.Failure(errors) as TResult)!;
-            }
 
             var result = typeof(Result)
                 .GetMethods()

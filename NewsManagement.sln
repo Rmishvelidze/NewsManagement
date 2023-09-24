@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsManagement.Domain", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsManagement.Persistence", "src\NewsManagement.Persistence\NewsManagement.Persistence.csproj", "{FE7A6D61-4A62-461C-B7D4-9F7C8A793651}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{311A0F9C-B273-481A-B0B1-EC45FEF56F1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{311A0F9C-B273-481A-B0B1-EC45FEF56F1E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C9259FED-97D7-4B04-9C51-0DEA573608EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Architecture", "Architecture\Architecture.csproj", "{AF36D71F-91B5-4084-91E0-BDDB1E9466DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +43,16 @@ Global
 		{311A0F9C-B273-481A-B0B1-EC45FEF56F1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{311A0F9C-B273-481A-B0B1-EC45FEF56F1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{311A0F9C-B273-481A-B0B1-EC45FEF56F1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF36D71F-91B5-4084-91E0-BDDB1E9466DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF36D71F-91B5-4084-91E0-BDDB1E9466DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF36D71F-91B5-4084-91E0-BDDB1E9466DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF36D71F-91B5-4084-91E0-BDDB1E9466DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AF36D71F-91B5-4084-91E0-BDDB1E9466DD} = {C9259FED-97D7-4B04-9C51-0DEA573608EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C44F9ED-61EE-4D69-947E-699718ADE973}

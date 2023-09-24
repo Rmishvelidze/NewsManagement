@@ -9,9 +9,8 @@
         )
         {
             if (result.IsFailure)
-            {
                 return result;
-            }
+            
 
             return predicate(result.Value) ?
                 result :

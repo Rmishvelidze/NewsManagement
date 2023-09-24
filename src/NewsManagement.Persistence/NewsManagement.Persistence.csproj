@@ -8,10 +8,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\NewsManagement.Application\NewsManagement.Application.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Dapper" Version="2.0.151" />
+        <ProjectReference Include="..\NewsManagement.Domain\NewsManagement.Domain.csproj" />
     </ItemGroup>
 
 </Project>
